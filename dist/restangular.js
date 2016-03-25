@@ -406,6 +406,45 @@ restangular.provider('Restangular', function() {
     };
 
     /**
+     * This allows you to access and add parentless resources non-destructively
+     *
+     * It can receive either the name of an element (string) or an array of
+     * element names which will be added to the existing list of parentless
+     * resources.
+     */
+    config.getParentless = config.getParentless || function() {
+      return false;
+    };
+    object.addParentless = function(values) {
+      var currentValues = config.getParentless();
+
+      if (_.isArray(values)) {
+
+        if (currentValues === false) {
+          object.setParentless(values);
+
+        } else if (_.isArray(currentValues)) {
+          var combinedValues = currentValues.concat(values);
+          object.setParentless(combinedValues);
+        }
+
+      } else if (_.isString(values)) {
+
+        if (currentValues === false) {
+          object.setParentless([values]);
+
+        } else if (_.isArray(currentValues)) {
+          currentValues.push(values);
+          object.setParentless(currentValues);
+
+        }
+
+      }
+
+      return this;
+    };
+
+    /**
      * This lets you set a suffix to every request.
      *
      * For example, if your api requires that for JSon requests you do /users/123.json, you can set that
