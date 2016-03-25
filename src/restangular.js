@@ -894,7 +894,7 @@ restangular.provider('Restangular', function() {
       }
 
       function resolvePromise(deferred, response, data, filledValue) {
-        _.extend(filledValue, data);
+        extend(filledValue, data, true);
         filledValue = restangularizeElem(filledValue[config.restangularFields.parentResource], filledValue, filledValue[config.restangularFields.route], true);
 
         // Trigger the full response interceptor.
@@ -907,6 +907,25 @@ restangular.provider('Restangular', function() {
         }
       }
 
+      function extend(destination, source, includeNonEnumerablePropertiesIfObject) {
+        _.extend(destination, source);
+
+        if (includeNonEnumerablePropertiesIfObject && _.isObject(source)) {
+          var allPropertyNames = Object.getOwnPropertyNames(source);
+
+          for (var i = 0; i < allPropertyNames.length; i++) {
+            var propertyName = allPropertyNames[i];
+
+            // if already defined (thanks to _.extend), skip the property
+            if (propertyName in destination) continue;
+
+            // otherwise, re-define the property on destination with its old property descriptor
+            Object.defineProperty(destination, propertyName,
+              Object.getOwnPropertyDescriptor(source, propertyName));
+          }
+        }
+
+      }
 
       // Elements
       function stripRestangular(elem) {
@@ -1340,6 +1359,8 @@ restangular.provider('Restangular', function() {
       service.restangularizeElement = _.bind(restangularizeElem, service);
 
       service.restangularizeCollection = _.bind(restangularizeCollectionAndElements, service);
+
+      service.extend = _.bind(extend, service);
 
       return service;
     }

@@ -1068,9 +1068,26 @@ describe("Restangular", function() {
     it("should not stip non-restangularized elements", function () {
       expect(Restangular.stripRestangular(["test","test2"])).toEqual(["test","test2"]);
     });
+
+    it("should include non-enumerable properties when extending if instructed to do so", function() {
+      var destination = {
+        foo: 1
+      };
+
+      var source = {};
+      Object.defineProperty(source, 'bar', {
+        enumerable: false,
+        value: true
+      });
+
+      Restangular.extend(destination, source, true);
+      expect(destination.bar).toBe(true);
+
+    });
+
   });
 
-  describe("testing normilize url", function () {
+  describe("testing normalize url", function () {
 
     it("should get a list of objects", function () {
       Restangular.all('customers/').getList().then(function(res){
@@ -1109,12 +1126,12 @@ describe("Restangular", function() {
       $httpBackend.flush();
     });
 
-    it("should return a normilized URL even it has extra slashes", function() {
+    it("should return a normalized URL even it has extra slashes", function() {
       var restangularSpaces = Restangular.one("accounts//", 123).one("buildings//", 456).all("spaces///");
       expect(restangularSpaces.getRestangularUrl()).toEqual("/accounts/123/buildings/456/spaces/");
     });
 
-    it("should create a new service and still working normilized URL", function() {
+    it("should create a new service and still working normalized URL", function() {
       var newRes = Restangular.withConfig(function(RestangularConfigurer){
         RestangularConfigurer.setBaseUrl('http://localhost:8080');
       });
@@ -1132,5 +1149,6 @@ describe("Restangular", function() {
 
       $httpBackend.flush();
     });
+
   });
 });
