@@ -1,6 +1,6 @@
 /**
  * Restful Resources service for AngularJS apps
- * @version v1.4.0 - 2015-04-03 * @link https://github.com/mgonto/restangular
+ * @version v1.5.1 - 2016-03-25 * @link https://github.com/mgonto/restangular
  * @author Martin Gontovnikas <martin@gon.to>
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */(function() {
@@ -900,6 +900,7 @@ restangular.provider('Restangular', function() {
 
       function resolvePromise(deferred, response, data, filledValue) {
         _.extend(filledValue, data);
+        filledValue = restangularizeElem(filledValue[config.restangularFields.parentResource], filledValue, filledValue[config.restangularFields.route], true);
 
         // Trigger the full response interceptor.
         if (config.fullResponse) {
