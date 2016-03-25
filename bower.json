@@ -1,11 +1,11 @@
 {
   "name": "restangular",
-  "version": "1.5.1",
+  "version": "1.5.1-dk",
   "main": "./dist/restangular.js",
-  "description": "Restful Resources service for AngularJS apps",
+  "description": "Restful Resources service for AngularJS apps, custom-tailored to Diamond Kinetics developers",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mgonto/restangular.git"
+    "url": "git://github.com/hartz89/restangular.git"
   },
   "dependencies": {
     "lodash": ">=1.3.0",

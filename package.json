@@ -1,14 +1,14 @@
 {
   "name": "restangular",
-  "description": "Restful Resources service for AngularJS apps",
-  "version": "1.5.1",
+  "description": "Restful Resources service for AngularJS apps, custom-tailored to Diamond Kinetics developers",
+  "version": "1.5.1-dk",
   "filename": "restangular.min.js",
   "main": "./dist/restangular.min.js",
-  "homepage": "https://github.com/mgonto/restangular",
-  "author": "Martin Gontovnikas <martin@gon.to>",
+  "homepage": "https://github.com/hartz89/restangular",
+  "author": "Martin Gontovnikas <martin@gon.to>, Ryan Hartzfeld <rhartzfeld@diamondkinetics.com>",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mgonto/restangular.git"
+    "url": "git://github.com/hartz89/restangular.git"
   },
   "engines": {
     "node": ">= 0.9"
@@ -23,6 +23,10 @@
     "api"
   ],
   "maintainers": [
+    {
+      "name": "Ryan Hartzfeld",
+      "website": "http://diamondkinetics.com/"
+    },
     {
       "name": "Martin Gontovnikas",
       "website": "http://gon.to/"
