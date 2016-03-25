@@ -895,6 +895,7 @@ restangular.provider('Restangular', function() {
 
       function resolvePromise(deferred, response, data, filledValue) {
         _.extend(filledValue, data);
+        filledValue = restangularizeElem(filledValue[config.restangularFields.parentResource], filledValue, filledValue[config.restangularFields.route], true);
 
         // Trigger the full response interceptor.
         if (config.fullResponse) {
