@@ -938,8 +938,7 @@ restangular.provider('Restangular', function() {
       }
 
       function resolvePromise(deferred, response, data, filledValue) {
-        extend(filledValue, data, true);
-        filledValue = restangularizeElem(filledValue[config.restangularFields.parentResource], filledValue, filledValue[config.restangularFields.route], true);
+        extendIncludingNonEnumerable(filledValue, data);
 
         // Trigger the full response interceptor.
         if (config.fullResponse) {
@@ -951,16 +950,25 @@ restangular.provider('Restangular', function() {
         }
       }
 
-      function extend(destination, source, includeNonEnumerablePropertiesIfObject) {
+      function extendIncludingNonEnumerable(destination, source) {
         _.extend(destination, source);
+        mapNonEnumerableProperties(destination, source);
+      }
 
-        if (includeNonEnumerablePropertiesIfObject && _.isObject(source)) {
+      function copyIncludingNonEnumerable(source) {
+        var theCopy = angular.copy(source);
+        mapNonEnumerableProperties(theCopy, source);
+        return theCopy;
+      }
+
+      function mapNonEnumerableProperties(destination, source) {
+        if (_.isObject(source)) {
           var allPropertyNames = Object.getOwnPropertyNames(source);
 
           for (var i = 0; i < allPropertyNames.length; i++) {
             var propertyName = allPropertyNames[i];
 
-            // if already defined (thanks to _.extend), skip the property
+            // if already defined (presumably becuase it is enumerable), skip the property
             if (propertyName in destination) continue;
 
             // otherwise, re-define the property on destination with its old property descriptor
@@ -968,7 +976,6 @@ restangular.provider('Restangular', function() {
               Object.getOwnPropertyDescriptor(source, propertyName));
           }
         }
-
       }
 
       // Elements
@@ -1007,7 +1014,7 @@ restangular.provider('Restangular', function() {
       }
 
       function copyRestangularizedElement(fromElement, toElement) {
-        var copiedElement = angular.copy(fromElement, toElement);
+        var copiedElement = copyIncludingNonEnumerable(fromElement, toElement);
         return restangularizeElem(copiedElement[config.restangularFields.parentResource],
                 copiedElement, copiedElement[config.restangularFields.route], true);
       }
@@ -1384,6 +1391,8 @@ restangular.provider('Restangular', function() {
 
       service.copy = _.bind(copyRestangularizedElement, service);
 
+      service.extend = _.bind(extendIncludingNonEnumerable, service);
+
       service.service = _.bind(toService, service);
 
       service.withConfig = _.bind(withConfigurationFunction, service);
@@ -1403,8 +1412,6 @@ restangular.provider('Restangular', function() {
       service.restangularizeElement = _.bind(restangularizeElem, service);
 
       service.restangularizeCollection = _.bind(restangularizeCollectionAndElements, service);
-
-      service.extend = _.bind(extend, service);
 
       return service;
     }

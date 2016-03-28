@@ -810,6 +810,26 @@ describe("Restangular", function() {
       copiedAccount.getRestangularUrl(); // invoke the method we are spying on
       expect(that).toBe(copiedAccount);
     });
+
+    it("should copy an object, including its non-enumerable, 'own' properties", function() {
+
+      var toCopy = {
+        foo: true,
+        bar: false
+      };
+
+      Restangular.restangularizeElement(toCopy, {}, 'foobar'); // doesn't matter what the route name is
+
+      Object.defineProperty(toCopy, 'nonEnumerableProperty', {
+        enumerable: false,
+        value: 123
+      });
+
+      var theCopy = Restangular.copy(toCopy);
+
+      expect(theCopy.nonEnumerableProperty).toBeDefined();
+
+    });
   });
 
   describe("getRestangularUrl", function() {
