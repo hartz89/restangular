@@ -766,8 +766,11 @@ describe("Restangular", function() {
     it("put() should update the value", function() {
       restangularAccount1.get().then(function(account) {
         account.amount = 1.618;
+        account.user = "Ryan";
+
         account.put().then(function(newAc) {
           expect(accountsModel[1].amount).toEqual(1.618);
+          expect(accountsModel[1].user).toEqual("Ryan");
           newAc.remove();
           $httpBackend.expectDELETE("/accounts/1");
         });
