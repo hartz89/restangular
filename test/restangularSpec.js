@@ -88,12 +88,12 @@ describe("Restangular", function() {
     });
 
     $httpBackend.whenPOST("/accounts/1").respond(function(method, url, data, headers) {
-      return [200, "", ""];
+      return [201, "", ""];
     });
 
     $httpBackend.whenPUT("/accounts/1").respond(function(method, url, data, headers) {
       accountsModel[1] = angular.fromJson(data);
-      return [201, data, ""];
+      return [200, data, ""];
     });
 
     $httpBackend.whenGET("/error").respond(function() {

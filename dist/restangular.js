@@ -1,6 +1,6 @@
 /**
  * Restful Resources service for AngularJS apps, custom-tailored to Diamond Kinetics developers
- * @version v1.5.1-dk - 2016-03-25 * @link https://github.com/hartz89/restangular
+ * @version v1.5.1-dk - 2016-03-28 * @link https://github.com/hartz89/restangular
  * @author Martin Gontovnikas <martin@gon.to>, Ryan Hartzfeld <rhartzfeld@diamondkinetics.com>
  * @license MIT License, http://www.opensource.org/licenses/MIT
  */(function() {
